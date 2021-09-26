@@ -48,11 +48,11 @@ module.exports.dogController = {
     try {
       const search = req.query.search || false;
       const { page } = req.query;
-      const pages = page ? Number(page) : 1;
+      const pages = Number(page) || 1;
 
       const findDog = {};
 
-      if (search !== "undefined") {
+      if (search && search !== "undefined") {
         findDog.name = new RegExp(search);
       } else {
         findDog
