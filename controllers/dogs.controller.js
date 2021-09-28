@@ -19,7 +19,6 @@ module.exports.dogController = {
           const [, breed, title] = response.data.message.match(
             /([\w+_-]+)\/([\w_-]+)\.(gif|jpe?g|png)$/i
           );
-          console.log(breed, title);
           let breedId;
           const candidate = await Breed.findOne({ name: breed });
           if (candidate) {
@@ -44,26 +43,40 @@ module.exports.dogController = {
       console.log(`Ошибка: ${e.toString()}`);
     }
   },
+
   getDogMongoDB: async (req, res) => {
     try {
       const search = req.query.search || false;
-      const { page } = req.query;
+      const page = req.query.page;
       const pages = Number(page) || 1;
 
       const findDog = {};
 
       if (search && search !== "undefined") {
         findDog.name = new RegExp(search);
-      } else {
-        findDog
       }
 
-      const dogs = await Dog.find(findDog)
-        .populate("breedId")
-        .limit(10)
-        .skip((pages - 1) * 10);
+      const breed = {};
+      breed._id = req.query.breedId;
+      let breeds;
 
-      return res.json({ pages, dogs });
+      if (breed._id && breed._id !== "" && breed._id !== "undefined") {
+        breeds = await Breed.find(breed);
+      }
+
+      if (breeds) {
+        const dogs = await Dog.find({ findDog, breedId: breeds })
+          .populate("breedId")
+          .limit(10)
+          .skip((pages - 1) * 10);
+        return res.json({ pages, dogs });
+      } else {
+        const dogs = await Dog.find(findDog)
+          .populate("breedId")
+          .limit(10)
+          .skip((pages - 1) * 10);
+        return res.json({ pages, dogs });
+      }
     } catch (e) {
       console.log(`Ошибка: ${e.toString()}`);
     }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from 'react'
 import { makeStyles } from "@material-ui/styles";
 import {
   Avatar,
@@ -10,8 +10,9 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux'
 import Footer from "./Footer";
+import { fetchDogs } from '../redux/dogReduser'
 
 const useStyles = makeStyles((theme) => ({
   body: {
@@ -21,23 +22,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Body({ breed }) {
+export default function Body() {
+  const dispatch = useDispatch();
   const classes = useStyles();
-  const dogs = useSelector((state) =>
-    state.dogs.items.filter(
-      (item) =>
-        item.breedId.name.toLowerCase().indexOf(breed.toLowerCase()) !== -1
-    )
-  );
+  const dogs = useSelector((state) => state.dogs.items)
+
+  useEffect(() => {
+    dispatch(fetchDogs());
+  }, [dispatch]);
 
   return (
     <div className={classes.body}>
       <Paper sx={{ width: "50%" }}>
         <TableContainer sx={{ maxHeight: "100%" }}>
           <Table sx={{ minWidth: 300 }} aria-label="caption table">
-            <caption>
-              <Footer />
-            </caption>
             <TableHead>
               <TableRow>
                 <TableCell>
@@ -66,6 +64,9 @@ export default function Body({ breed }) {
                 </TableRow>
               ))}
             </TableBody>
+            <caption>
+              <Footer />
+            </caption>
           </Table>
         </TableContainer>
       </Paper>

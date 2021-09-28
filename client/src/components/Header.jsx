@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 import { MenuItem, TextField } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPagination } from "../redux/dogReduser";
+import { fetchBreeds } from '../redux/breedReduser'
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -17,21 +18,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Header({ setBreeds, breed }) {
+function Header() {
+  const [breed, setBreed] = useState("");
   const [search, setSearch] = useState("");
   const dispatch = useDispatch();
   const classes = useStyles();
   const breeds = useSelector((state) => state.breeds.items);
 
   useEffect(() => {
-    dispatch(fetchPagination({ search }));
-  }, [search]);
+    dispatch(fetchBreeds());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchPagination({ search, breed }));
+  }, [search,breed]);
 
   const handleChange = (e) => {
     setSearch(e.target.value);
   };
   const handleChangeBreeds = (e) => {
-    setBreeds(e.target.value);
+    setBreed(e.target.value);
   };
   return (
     <div className={classes.header}>
@@ -54,7 +60,7 @@ function Header({ setBreeds, breed }) {
           <em>Не указан</em>
         </MenuItem>
         {breeds.map((item) => (
-          <MenuItem key={item._id} value={item.name}>
+          <MenuItem key={item._id} value={item._id}>
             {item.name}
           </MenuItem>
         ))}

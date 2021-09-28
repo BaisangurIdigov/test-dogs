@@ -58,11 +58,11 @@ export const fetchDogs = () => {
   };
 };
 
-export const fetchPagination = ({ search, page }) => {
+export const fetchPagination = ({ search, page, breed }) => {
   return async (dispatch) => {
     dispatch({ type: "get/Pagination/pending" });
     try {
-      const response = await fetch(`/getDogs/?search=${search}&page=${page}`);
+      const response = await fetch(`/getDogs/?search=${search}&page=${page}&breedId=${breed}`);
       const json = await response.json();
       dispatch({ type: "get/Pagination/fulfilled", payload: json });
     } catch (e) {
