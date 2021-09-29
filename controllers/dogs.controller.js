@@ -10,7 +10,8 @@ module.exports.dogController = {
   getDogAPI: async (req, res) => {
     try {
       const dogCount = await Dog.countDocuments();
-      for (let i = 0; i < 100; i++) {
+      const count = 100 - dogCount;
+      for (let i = 0; i < count; i++) {
         const response = await axios.get(
           "https://dog.ceo/api/breeds/image/random"
         );
@@ -46,13 +47,13 @@ module.exports.dogController = {
 
   getDogMongoDB: async (req, res) => {
     try {
-      const search = req.query.search || false;
+      const search = req.query.search;
       const page = req.query.page;
       const pages = Number(page) || 1;
 
       const findDog = {};
 
-      if (search && search !== "undefined") {
+      if (search) {
         findDog.name = new RegExp(search);
       }
 
@@ -60,7 +61,7 @@ module.exports.dogController = {
       breed._id = req.query.breedId;
       let breeds;
 
-      if (breed._id && breed._id !== "" && breed._id !== "undefined") {
+      if (breed._id) {
         breeds = await Breed.find(breed);
       }
 

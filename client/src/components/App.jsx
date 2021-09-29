@@ -1,9 +1,7 @@
-import { useDispatch } from "react-redux";
-import React, { useEffect } from "react";
+import React from "react";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import Header from "./Header";
 import Body from "./Body";
-import { fetchBreeds } from "../redux/breedReduser";
 
 const theme = createTheme();
 

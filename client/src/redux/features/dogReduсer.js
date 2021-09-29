@@ -59,10 +59,15 @@ export const fetchDogs = () => {
 };
 
 export const fetchPagination = ({ search, page, breed }) => {
+  console.log( search, page, breed )
+  const fetchSearch = search ? search : ''
+  const fetchPage = page ? page : ''
+  const fetchBreed = breed ? breed : ''
+  console.log( fetchSearch, fetchPage, fetchBreed )
   return async (dispatch) => {
     dispatch({ type: "get/Pagination/pending" });
     try {
-      const response = await fetch(`/getDogs/?search=${search}&page=${page}&breedId=${breed}`);
+      const response = await fetch(`/getDogs/?search=${fetchSearch}&page=${fetchPage}&breedId=${fetchBreed}`);
       const json = await response.json();
       dispatch({ type: "get/Pagination/fulfilled", payload: json });
     } catch (e) {

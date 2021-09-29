@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import { useDispatch, useSelector } from 'react-redux'
 import Footer from "./Footer";
-import { fetchDogs } from '../redux/dogReduser'
+import { fetchDogs } from '../redux/features/dogReduсer'
 
 const useStyles = makeStyles((theme) => ({
   body: {

@@ -2,8 +2,8 @@ import React, { memo, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { MenuItem, TextField } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPagination } from "../redux/dogReduser";
-import { fetchBreeds } from '../redux/breedReduser'
+import { fetchPagination } from "../redux/features/dogReduсer";
+import { fetchBreeds } from '../redux/features/breedReduсer'
 
 const useStyles = makeStyles((theme) => ({
   header: {

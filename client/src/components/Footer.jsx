@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useState } from "react";
 import { Pagination } from "@material-ui/core";
 import { useDispatch } from "react-redux";
-import { fetchPagination } from "../redux/dogReduser";
+import { fetchPagination } from "../redux/features/dogReduсer";
 
 function Footer(props) {
   const dispatch = useDispatch();
